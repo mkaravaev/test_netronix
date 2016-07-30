@@ -2,6 +2,9 @@ require 'models/user'
 require 'json'
 
 class App < Sinatra::Base
+  before do
+    content_type :json
+  end
 
  # get "/tasks" do
  #   @tasks = Task.all_for_user(user)
@@ -11,11 +14,15 @@ class App < Sinatra::Base
   post "/users" do
     @user = User.new(params[:user])
     if @user.save
-      content_type :json
-      {status: :ok}.to_json
+      json status: :ok
     else
-      content_type :json
-      {status: :error}.to_json
+      json status: :error
     end
+  end
+
+  private
+
+  def json(obj = {})
+    obj.to_json
   end
 end

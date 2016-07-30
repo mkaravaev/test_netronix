@@ -2,9 +2,12 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps::Updated
 
+  TYPES = %i(manager driver)
+
   before_save :generate_token
+
   field :name, type: String
-  field :type, type: String
+  field :type, type: Symbol
   field :token, type: String
 
   private
