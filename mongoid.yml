@@ -1,6 +1,12 @@
 development:
   clients:
     default:
-      database: mongoid
+      database: development_netronix
+      hosts:
+        - localhost:27017
+test:
+  clients:
+    default:
+      database: test_netronix
       hosts:
         - localhost:27017
