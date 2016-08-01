@@ -7,7 +7,7 @@ class UserTypeSearcherMiddleware
   def call(env)
     @request = Rack::Request.new(env) 
     write_token
-    @app.call(env)
+    @app.call(@request.env)
   end
 
   private
@@ -17,7 +17,7 @@ class UserTypeSearcherMiddleware
     user = User.by_token(token).first
 
     if token.present? && user.present?
-      @request.update_param('user_type', user.type)
+      @request.env["user_type"] = user.type
     end
   end
 
