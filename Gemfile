@@ -2,10 +2,11 @@ source 'http://rubygems.org'
 
 gem 'sinatra'
 gem 'pry'
-gem 'mongoid', '~> 5.1.0'
+gem 'mongoid', '~> 5.0.1'
 gem 'shotgun'
 gem 'rake'
 gem 'json'
+gem 'rack-contrib'
 
 group :test do
   gem 'minitest', require: 'minitest/autorun'
