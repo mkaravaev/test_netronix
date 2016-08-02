@@ -8,24 +8,44 @@ class Task
   field :pickup, type: Array
   field :delivery, type: Array
 
-  index({pickup: "2d"})
-  index({delivery: "2d"})
+  index({ pickup: "2d" })
+  index({ delivery: "2d" })
 
   validates :state, inclusion: { in: STATES }
-  validates_presence_of :initiator
+  validates_presence_of :creator
+  validate :creator_type, on: :create
 
-  belongs_to :creator, class_name: "User"
-  belongs_to :executor, class_name: "User"
+  belongs_to :creator, class_name: "User", inverse_of: :created_tasks do
+    ->{where(type: :manager)}
+  end
 
-  def assign!
-    self.update({state: :assigned!})
+  belongs_to :executor, class_name: "User", inverse_of: :accepted_tasks do
+    ->{where(type: :driver)}
+  end
+
+  scope :nearest, ->(lat,lng){ near({pickup: [lat, lng]}) }
+
+  def assign_to!(executor)
+    if valid_executor_type?(executor)
+      self.update({state: :assigned, executor: executor})
+    else
+      self.errors.add(:executor, 'is not driver')
+    end
   end
 
   def done!
     self.update({state: :done})
   end
 
-  def self.nearest(lat, lng)
-    pickup.geo_near([lat, lng])
+  private
+
+  def creator_type
+    if self.creator.type != :manager
+      errors.add(:creator, "is not manager")
+    end
+  end
+
+  def valid_executor_type?(obj)
+    obj.type == :driver
   end
 end

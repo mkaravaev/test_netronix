@@ -11,13 +11,14 @@ class User
   validates_presence_of :token, :type
   validates :type, inclusion: { in: TYPES }
 
-  has_many :tasks
+  has_many :created_tasks, class_name: "Task", inverse_of: :creator
+  has_many :accepted_tasks, class_name: "Task", inverse_of: :executor
+
+  after_initialize :generate_token
 
   scope :manager, ->{ where(type: :manager) }
-  scope :driver, ->{ where(type: :manager) }
+  scope :driver, ->{ where(type: :driver) }
   scope :by_token, ->(token){ where(token: token)}
-
-  before_save :generate_token
 
   private
 
