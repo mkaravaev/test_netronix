@@ -12,7 +12,7 @@ class Task
   index({ delivery: "2d" })
 
   validates :state, inclusion: { in: STATES }
-  validates_presence_of :creator
+  validates_presence_of :creator, :pickup, :delivery
   validate :creator_type, on: :create
 
   belongs_to :creator, class_name: "User", inverse_of: :created_tasks do
@@ -23,18 +23,24 @@ class Task
     ->{where(type: :driver)}
   end
 
-  scope :nearest, ->(lat,lng){ near({pickup: [lat, lng]}) }
+  scope :nearest, ->(lat,lng){ near({pickup: [lat.to_f, lng.to_f]}) }
 
   def assign_to!(executor)
-    if valid_executor_type?(executor)
+    if valid_executor_type?(executor) && self.executor.nil?
       self.update({state: :assigned, executor: executor})
     else
-      self.errors.add(:executor, 'is not driver')
+      self.errors.add(:executor, 'is not driver or already exist')
     end
   end
 
-  def done!
-    self.update({state: :done})
+  def done_by!(user)
+    if self.executor == user && self.state == :assigned
+      self.update({state: :done})
+    else
+      self.errors.add(
+        :executor, 'is not same as assigned or state not appropriate'
+      )
+    end
   end
 
   private

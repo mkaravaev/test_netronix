@@ -34,7 +34,7 @@ class TaskTest < Minitest::Spec
 
   def test_assign_to_should_not_change_task_state_for_manager
     manager2 = User.create({ name: "Manager2", type: :manager })
-    expected_error = { "executor": ['is not driver'] }
+    expected_error = { "executor": ['is not driver or already exist'] }
     @task.assign_to!(manager2)
 
     assert_equal :new, @task.state

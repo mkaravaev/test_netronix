@@ -14,7 +14,7 @@ class User
   has_many :created_tasks, class_name: "Task", inverse_of: :creator
   has_many :accepted_tasks, class_name: "Task", inverse_of: :executor
 
-  after_initialize :generate_token
+  before_validation :generate_token
 
   scope :manager, ->{ where(type: :manager) }
   scope :driver, ->{ where(type: :driver) }
