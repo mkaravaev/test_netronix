@@ -1,7 +1,7 @@
-#h3 GET /users
+# GET /users
 get list of all users for testing purpose
 
-#h3 POST /users
+# POST /users
 user creation, allowed for all
 
 ```javascript
@@ -11,10 +11,10 @@ user creation, allowed for all
 }
 ```
 
-#h3 GET /tasks?token=!231342fsafasf==&lat=34.323&lng=32.312
+# GET /tasks?token=!231342fsafasf==&lat=34.323&lng=32.312
 allowed for drivers
 
-#h3 POST /tasks
+# POST /tasks
 task creation, only allowed for managers
 
 ```javascript
@@ -28,7 +28,7 @@ task creation, only allowed for managers
 }
 ```
 
-#h3 PUT /tasks/assign
+# PUT /tasks/assign
 allowed for driver; task must have new state
 id is for task id
 
@@ -39,7 +39,7 @@ id is for task id
 }
 ```
 
-#h3 PUT /tasks/done
+# PUT /tasks/done
 allowed for driver; task must be assigned by same user
 id is for task id
 
