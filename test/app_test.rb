@@ -35,14 +35,7 @@ class AppTest < Minitest::Spec
 
   def test_create_task_by_manager
     count = Task.count
-    post_json("/tasks", {
-      task: {
-        description: "piano",
-        pickup: [32.12, 43.32],
-        delivery: [32.12, 43.33]
-      },
-      token: @manager.token
-    })
+    post_json("/tasks", task_attrs)
     assert_equal count + 1, Task.count
     assert_equal @manager, Task.last.creator
   end
@@ -69,15 +62,26 @@ class AppTest < Minitest::Spec
   private
 
   def post_json(uri, json)
-    post(uri, json, format: :json, content_type: 'application/json')
+    post(uri, json.to_json, {'CONTENT_TYPE' => 'application/json'})
   end
 
-  def get_json(uri, json)
-    get(uri, json, format: :json, content_type: 'application/json')
+  def get_json(uri, params)
+    get(uri, params, {'CONTENT_TYPE' => 'application/json'})
   end
 
   def put_json(uri, json)
-    put(uri, json, format: :json, content_type: 'application/json')
+    put(uri, json.to_json, {'CONTENT_TYPE' => 'application/json'})
+  end
+
+  def task_attrs
+    {
+      task: {
+        description: "piano",
+        pickup: [32.12, 43.32],
+        delivery: [32.12, 43.33]
+      },
+      token: @manager.token
+    }
   end
 
 end
