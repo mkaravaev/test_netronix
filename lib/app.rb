@@ -42,12 +42,11 @@ class App < Sinatra::Base
       json @tasks
     else
       status 422
-      json status: [@tasks.errors]
+      json status: "no tasks"
     end
   end
 
   post "/tasks", auth: :manager do
-    #move to Facade
     @user = User.find_by({token: params[:token]})
     @task = @user.created_tasks.build(params[:task])
     if @task.save
@@ -59,7 +58,6 @@ class App < Sinatra::Base
   end
 
   put "/tasks/assign", auth: :driver do
-    #move to Facade
     @user = User.find_by(token: params[:token])
     @task = Task.find(params[:id])
 
