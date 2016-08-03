@@ -29,8 +29,8 @@ task creation, only allowed for managers
 ```
 
 # PUT /tasks/assign
-allowed for driver; task must have new state
-id is for task id
+allowed for driver; task must have new state;
+"id" is for task id
 
 ```javascript
 {
@@ -40,8 +40,8 @@ id is for task id
 ```
 
 # PUT /tasks/done
-allowed for driver; task must be assigned by same user
-id is for task id
+allowed for driver; task must be assigned by same user;
+"id" is for task id
 
 ```javascript
 {
