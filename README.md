@@ -2,7 +2,7 @@
 get list of all users for testing purpose
 
 #h3 POST /users
-for user creation, allowed for all
+user creation, allowed for all
 
 ```javascript
 {
@@ -11,7 +11,7 @@ for user creation, allowed for all
 }
 ```
 
-#h3 GET /tasks?token=!231342fsafasf==
+#h3 GET /tasks?token=!231342fsafasf==&?lat=34.323&?lng=32.312
 allowed for drivers
 
 #h3 POST /tasks
